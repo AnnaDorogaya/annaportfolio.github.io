@@ -107,7 +107,7 @@ h1:focus{outline:none}
 .ol{color:var(--f,var(--blush));-webkit-text-stroke:1.5px var(--dark);paint-order:stroke fill;font-weight:500}
 .tape{
   position:absolute;width:84px;height:26px;background-color:var(--tape);
-  box-shadow:0 1px 2px var(--shadow);pointer-events:none;
+  box-shadow:0 1px 2px var(--shadow);pointer-events:none;z-index:3;
 }
 .tape.pink{background-color:var(--pink);background-image:radial-gradient(circle,#fff 2.1px,transparent 2.5px);background-size:9px 9px}
 .tape.sky{background-color:var(--sky);background-image:radial-gradient(circle,#fff 2.1px,transparent 2.5px);background-size:9px 9px}
@@ -564,7 +564,7 @@ footer{padding-block:28px 48px;display:flex;justify-content:space-between;gap:12
       <div class="collage">
         <div class="back polka"></div>
         <div class="photo-frame">
-          <span class="tape pink" style="top:-12px;left:22%;transform:rotate(-6deg)"></span>
+          <span class="tape pink" style="top:-2px;left:22%;transform:rotate(-6deg)"></span>
           <span class="slot" id="photoSlot">
             <span class="ph-text" id="photoHint"><strong>photo of Anna</strong><span>coming soon</span></span>
           </span>
