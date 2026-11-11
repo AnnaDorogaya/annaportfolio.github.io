@@ -44,6 +44,7 @@
   --font-body:'Instrument Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
   --font-mono:'DM Mono',ui-monospace,'SFMono-Regular',Menlo,monospace;
   --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.17 0 0 0 0 0.1 0 0 0 0 0.11 0 0 0 .1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --bars:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='28'%3E%3Cpath d='M1.5 12v16M4.5 20v8M7.5 9v19M10.5 24v4M13.5 22v6M16.5 3v25M19.5 22v6M22.5 12v16M25.5 24v4M28.5 3v25M31.5 18v10M34.5 24v4M37.5 22v6M40.5 9v19M43.5 9v19M46.5 22v6M49.5 18v10M52.5 22v6M55.5 3v25M58.5 9v19M61.5 24v4M64.5 22v6M67.5 18v10M70.5 24v4M73.5 9v19M76.5 24v4M79.5 18v10M82.5 24v4M85.5 3v25M88.5 20v8M91.5 15v13M94.5 9v19M97.5 20v8M100.5 3v25M103.5 22v6M106.5 15v13M109.5 3v25M112.5 20v8M115.5 22v6M118.5 18v10' stroke='%23fff' stroke-opacity='.7' stroke-width='1.6'/%3E%3C/svg%3E");
   --wave:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 12'%3E%3Cpath d='M0 6 Q10 0 20 6 T40 6' fill='none' stroke='%23F4B1CA' stroke-width='3.5' stroke-linecap='round'/%3E%3C/svg%3E");
 }
 @media (prefers-color-scheme: dark){
@@ -102,6 +103,8 @@ h1:focus{outline:none}
 .mono{font-family:var(--font-mono);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase}
 .marker{font-family:var(--font-marker);font-weight:400;line-height:1.1}
 .mk{display:inline-block;font-family:var(--font-marker);font-weight:400;color:var(--hi);letter-spacing:0;transform:rotate(-2deg)}
+.hl{background:linear-gradient(transparent 14%,var(--butter) 14% 90%,transparent 90%);color:var(--dark);padding:0 .15em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.ol{color:var(--f,var(--blush));-webkit-text-stroke:1.5px var(--dark);paint-order:stroke fill;font-weight:500}
 .tape{
   position:absolute;width:84px;height:26px;background-color:var(--tape);
   box-shadow:0 1px 2px var(--shadow);pointer-events:none;
@@ -128,6 +131,9 @@ h1:focus{outline:none}
 .btn:hover{background:var(--blush);color:var(--dark);border-color:var(--dark);transform:translateY(-2px) rotate(-1deg)}
 .btn.primary{background:var(--ink);color:var(--paper)}
 .btn.primary:hover{background:var(--blush);color:var(--dark)}
+.btn.pop{background:var(--blush);color:var(--dark);border-color:var(--dark);box-shadow:0 5px 0 var(--dark);font-family:var(--font-display);font-weight:600;font-size:1.3rem;letter-spacing:-.01em}
+.btn.pop em{font-style:italic}
+.btn.pop:hover{background:var(--pink);transform:translateY(2px);box-shadow:0 3px 0 var(--dark)}
 .sticker{
   display:inline-flex;align-items:center;min-height:44px;padding:6px 20px;border:0;border-radius:999px;
   background:var(--bg,var(--card));color:var(--dark);font-family:var(--font-marker);font-size:clamp(1.05rem,2.6vw,1.3rem);
@@ -204,6 +210,22 @@ h1:focus{outline:none}
   background-image:radial-gradient(circle,var(--dark) 4.5px,transparent 5px),radial-gradient(circle,var(--dark) 4.5px,transparent 5px);
   background-size:30px 30px;background-position:0 0,15px 15px;
 }
+
+/* editing timeline strip */
+.timeline{
+  position:relative;height:104px;overflow:hidden;margin-block:4px 28px;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);
+}
+.clip{position:absolute;height:54px;border-radius:7px;overflow:hidden;box-shadow:0 6px 14px var(--shadow)}
+.clip b{position:relative;z-index:1;display:inline-block;margin:4px 0 0 6px;padding:1px 7px;border-radius:4px;background:rgba(255,255,255,.22);color:#fff;font-family:var(--font-mono);font-weight:500;font-size:.66rem;white-space:nowrap}
+.clip::after{content:"";position:absolute;left:0;right:0;bottom:0;top:24px}
+.clip.audio{background:#3E86E6}
+.clip.audio::after{background:var(--bars) repeat-x left bottom/auto 100%}
+.clip.video{background:#1F7A80;border:2px solid #1F7A80}
+.clip.video::after{top:22px;background:repeating-linear-gradient(90deg,var(--blush) 0 30px,transparent 30px 33px,var(--sky) 33px 63px,transparent 63px 66px,var(--butter) 66px 96px,transparent 96px 99px)}
+.chip{position:absolute;padding:3px 9px;border-radius:5px;color:#fff;font-family:var(--font-mono);font-weight:500;font-size:.7rem;white-space:nowrap;box-shadow:0 4px 10px var(--shadow)}
+.playhead{position:absolute;top:0;bottom:0;width:2px;background:var(--berry);z-index:2}
+.playhead::before{content:"";position:absolute;top:0;left:-6px;width:14px;height:12px;background:var(--berry);clip-path:polygon(0 0,100% 0,100% 55%,50% 100%,0 55%)}
 
 /* sections */
 section{position:relative;padding-block:clamp(48px,7vw,96px);scroll-margin-top:calc(72px + env(safe-area-inset-top,0px))}
@@ -320,7 +342,14 @@ section{position:relative;padding-block:clamp(48px,7vw,96px);scroll-margin-top:c
 .file .stickynote{background:var(--butter);padding:12px 14px;font-family:var(--font-marker);font-size:1rem;line-height:1.3;transform:rotate(1.5deg);border:1px solid rgba(43,27,29,.1)}
 .file .read{font-family:var(--font-marker);font-size:1.05rem;color:#A33A6C}
 .process{margin-top:clamp(40px,6vw,72px)}
-.steps{display:flex;flex-wrap:wrap;gap:10px 8px;align-items:center;margin-top:18px}
+.steps{display:flex;flex-wrap:wrap;gap:10px 8px;align-items:center;margin-top:18px;counter-reset:step}
+.steps .step{counter-increment:step;display:inline-flex;align-items:center;gap:10px}
+.steps .step::before{
+  content:counter(step);display:grid;place-items:center;flex:none;width:30px;height:30px;border-radius:50%;
+  background:repeating-linear-gradient(-35deg,#3A2A2D 0 3px,#55444A 3px 6px);color:var(--butter);
+  font-family:var(--font-display);font-style:italic;font-weight:700;font-size:1.05rem;line-height:1;
+  box-shadow:inset 0 0 0 2px rgba(255,255,255,.3),0 2px 3px var(--shadow);
+}
 .steps .step{background:var(--card);color:var(--card-ink);padding:10px 18px;font-family:var(--font-marker);font-size:1.15rem;box-shadow:0 4px 10px var(--shadow);transform:rotate(-1deg)}
 .steps .step:nth-child(4n+3){transform:rotate(1.5deg);background:var(--blush)}
 .steps .step:nth-child(4n+1){background:var(--sky)}
@@ -524,7 +553,7 @@ footer{padding-block:28px 48px;display:flex;justify-content:space-between;gap:12
           <button class="sticker" data-go="graphic" style="--bg:var(--blush);--r:2deg">Graphic Designer</button>
           <button class="sticker" data-go="content" style="--bg:var(--butter);--r:-2deg">Content Creator</button>
         </div>
-        <p class="hero-lede">I'm a UX designer who also makes graphics and content. Tap a sticker or open the folders below.</p>
+        <p class="hero-lede">I'm a <span class="hl">UX designer</span> who also makes <span class="hl">graphics and content</span>. Tap a sticker or open the folders below.</p>
         <div class="hero-cta">
           <button class="btn primary" data-scroll="folders" type="button">See the work <span aria-hidden="true">↓</span></button>
           <button class="btn" data-go="about" type="button">About me <span aria-hidden="true">→</span></button>
@@ -579,6 +608,16 @@ footer{padding-block:28px 48px;display:flex;justify-content:space-between;gap:12
       <div class="logo-wall" id="logoWall"></div>
     </div>
   </section>
+
+  <div class="timeline" aria-hidden="true">
+    <span class="clip audio" style="left:-3%;top:40px;width:37%"><b>voiceover.mp3</b></span>
+    <span class="clip video" style="left:32%;top:16px;width:19%"><b>reel_01.mp4</b></span>
+    <span class="clip audio" style="left:50%;top:8px;width:33%"><b>soft beat.mp3</b></span>
+    <span class="clip video" style="left:80%;top:34px;width:17%"><b>b-roll.mp4</b></span>
+    <span class="chip" style="right:3%;top:4px;background:#F0703A">Aa title</span>
+    <span class="chip" style="right:1%;top:74px;background:#8E6FD8">✦ glow</span>
+    <span class="playhead" style="left:44%"></span>
+  </div>
 </main>
 
 <!-- ABOUT -->
@@ -597,7 +636,7 @@ footer{padding-block:28px 48px;display:flex;justify-content:space-between;gap:12
         <div class="torn-paper-wrap">
           <svg class="bclip pink" viewBox="0 0 80 76" aria-hidden="true"><use href="#bclip"/></svg>
           <div class="torn-paper">
-            <p>I'm Anna, a UX designer. I work on layout, how content is organized and how an interface behaves, then I prototype it until it feels right. Outside of screens I make graphic design and content, and this site keeps all of my work in one place.</p>
+            <p>I'm Anna, a UX designer. I work on layout, how content is organized and how an interface behaves, then I <span class="hl">prototype it until it feels right</span>. Outside of screens I make graphic design and content, and this site keeps all of my work in one place.</p>
             <div class="facts mono"><span>Layout</span><span>Content organization</span><span>Interactive prototyping</span></div>
           </div>
           <svg class="star" viewBox="0 0 100 100" aria-hidden="true"><use href="#star-gold"/></svg>
@@ -628,7 +667,7 @@ footer{padding-block:28px 48px;display:flex;justify-content:space-between;gap:12
     </div>
     <div class="view-head">
       <svg class="star" style="right:2%;top:30px;width:52px;height:52px;transform:rotate(12deg)" viewBox="0 0 100 100" aria-hidden="true"><use href="#star-dots-sky"/></svg>
-      <h1 tabindex="-1">UX design <span class="marker">process first</span></h1>
+      <h1 tabindex="-1"><span class="ol" style="--f:var(--sky)">UX design</span> <span class="marker">process first</span></h1>
       <p class="lede">Each file is one case study: the problem, my role, how I got to the answer and what changed. Prototypes sit next to the screens so you can click through them.</p>
     </div>
     <div class="view-body">
@@ -661,7 +700,7 @@ footer{padding-block:28px 48px;display:flex;justify-content:space-between;gap:12
     </div>
     <div class="view-head">
       <svg class="star" style="right:2%;top:30px;width:52px;height:52px;transform:rotate(-10deg)" viewBox="0 0 100 100" aria-hidden="true"><use href="#star-gold"/></svg>
-      <h1 tabindex="-1">Graphic design <span class="marker">pinned up</span></h1>
+      <h1 tabindex="-1"><span class="ol" style="--f:var(--blush)">Graphic design</span> <span class="marker">pinned up</span></h1>
       <p class="lede">A pinboard of posters, brand work and campaigns. Each piece gets a short note on the brief.</p>
     </div>
     <div class="view-body">
@@ -688,8 +727,17 @@ footer{padding-block:28px 48px;display:flex;justify-content:space-between;gap:12
     </div>
     <div class="view-head">
       <svg class="star" style="right:2%;top:30px;width:52px;height:52px;transform:rotate(12deg)" viewBox="0 0 100 100" aria-hidden="true"><use href="#star-dots"/></svg>
-      <h1 tabindex="-1">Content creation <span class="marker">coming soon</span></h1>
+      <h1 tabindex="-1"><span class="ol" style="--f:var(--butter)">Content creation</span> <span class="marker">coming soon</span></h1>
       <p class="lede">Posts, reels and tutorials will live here. The frames below are ready for the first ones.</p>
+    </div>
+    <div class="timeline" aria-hidden="true">
+      <span class="clip audio" style="left:-3%;top:40px;width:37%"><b>voiceover.mp3</b></span>
+      <span class="clip video" style="left:32%;top:16px;width:19%"><b>reel_01.mp4</b></span>
+      <span class="clip audio" style="left:50%;top:8px;width:33%"><b>soft beat.mp3</b></span>
+      <span class="clip video" style="left:80%;top:34px;width:17%"><b>b-roll.mp4</b></span>
+      <span class="chip" style="right:3%;top:4px;background:#F0703A">Aa title</span>
+      <span class="chip" style="right:1%;top:74px;background:#8E6FD8">✦ glow</span>
+      <span class="playhead" style="left:44%"></span>
     </div>
     <div class="view-body">
       <div class="phones">
@@ -728,7 +776,7 @@ footer{padding-block:28px 48px;display:flex;justify-content:space-between;gap:12
         <span class="mail" id="mailText">annydear.pr@gmail.com</span>
       </div>
     </div>
-    <button class="copy-btn" id="copyBtn" type="button">Copy email</button>
+    <button class="btn pop copy-btn" id="copyBtn" type="button">Copy email</button>
   </div>
 </section>
 
